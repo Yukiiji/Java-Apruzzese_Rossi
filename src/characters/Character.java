@@ -4,6 +4,8 @@ import lsg.weapons.Weapon;
 
 public class Character {
 	
+	//Variables de classe
+	
 	protected String name;
 	
 	protected int stamina, maxStamina;
@@ -12,18 +14,21 @@ public class Character {
 	protected Dice dice;
 	protected Weapon weapon;
 	
+	//Constructeur avec nom. Si un character est créé avec un nom passé en paramètre, on appelle d'abord le constructeur sans paramètre avec this()
+	// puis on s'occuper de set le nom
 	public Character (String name) {
 		this();
 		this.name = name;
 	}
 	
+	//Constructeur de base
 	public Character() {
 		dice = new Dice(101);
 	}
 	
 
 	
-	//Methods
+	//Setters et Getters
 	
 	public int getStamina() {
 		return stamina;
