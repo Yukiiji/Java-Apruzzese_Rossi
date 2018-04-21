@@ -2,7 +2,7 @@ package characters;
 import lsg.helpers.Dice;
 import lsg.weapons.Weapon;
 
-public class Character {
+public abstract class Character {
 	
 	//Variables de classe
 	
@@ -132,6 +132,8 @@ public class Character {
 		this.setLife(remainingLife);
 		return remainingLife;
 	}
+	
+	public abstract float computeProtection();
 	
 	public void battle(Character foe) {
 		int damage = this.attack();

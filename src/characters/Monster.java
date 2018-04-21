@@ -23,14 +23,19 @@ public class Monster extends Character {
 		instances_count++;
 	}
 
-	public float getSkinThickness() {
+	protected float getSkinThickness() {
 		return skinThickness;
 	}
 
-	public void setSkinThickness(float skinThickness) {
+	protected
+	void setSkinThickness(float skinThickness) {
 		this.skinThickness = skinThickness;
 	}
 	
-	
+	@Override
+	public float computeProtection() {
+		//TP 3 Q4.2 LEs classes présentent une erreur car la méthode abstraite de la classe abstraite doit être initialisée dans toutes les sous classes
+		return 0;
+	}
 
 }
