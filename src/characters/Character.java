@@ -14,6 +14,10 @@ public abstract class Character {
 	protected Dice dice;
 	protected Weapon weapon;
 	
+	protected final String LIFE_STAT_STRING = "LIFE : ";
+	protected final String STAM_STAT_STRING = "STAMINA : ";
+	protected final String DEF_STAT_STRING = "DEFENSE : ";
+	
 	//Constructeur avec nom. Si un character est créé avec un nom passé en paramètre, on appelle d'abord le constructeur sans paramètre avec this()
 	// puis on s'occuper de set le nom
 	public Character (String name) {
@@ -87,9 +91,9 @@ public abstract class Character {
 	
 	public String toString() {
 		if(this.isAlive() == false) {
-			return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-20s", this.name) + String.format("%-20s", "LIFE : "+this.life) + String.format("%-20s", "STAMINA : "+this.stamina) + String.format("%-20s", "Dead");
+			return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-20s", "Dead");
 		}
-		return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-20s", this.name) + String.format("%-20s", "LIFE : "+this.life) + String.format("%-20s", "STAMINA : "+this.stamina) + String.format("%-20s", "Alive");
+		return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-20s", "Alive");
 	}
 	
 	public Boolean isAlive(){
@@ -127,20 +131,24 @@ public abstract class Character {
 	}
 	
 	public int getHitWith(int damage) {
-		int remainingLife = this.getLife() - damage;
+		//Calcul des dommages en fonction de l'armure
+		int divider = damage * Math.round(this.computeProtection()) / 100;
+		int damageAfterProtecc = damage - divider;
+		
+		int remainingLife = this.getLife() - damageAfterProtecc;
 		remainingLife = remainingLife <= 0 ? 0 : remainingLife;
 		this.setLife(remainingLife);
-		return remainingLife;
+		return damageAfterProtecc;
 	}
 	
 	public abstract float computeProtection();
 	
 	public void battle(Character foe) {
 		int damage = this.attack();
-		foe.getHitWith(damage);
+		int damageAfterProtecc = foe.getHitWith(damage);
 		System.out.println();
 		System.out.println("°°° " + this.name + " attaque "+ foe.name +" avec "+ this.getWeapon() + "°°°");
-		System.out.println(foe.name + " : -"+ damage +" points de vie");
+		System.out.println("ATTACK : " + damage + " | " + foe.name + " DAMAGE TAKEN : " + damageAfterProtecc);
 		System.out.println("Il reste " +foe.getLife()+" PV à "+ foe.name);
 		System.out.println("\n");
 	}

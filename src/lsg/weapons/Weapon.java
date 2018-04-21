@@ -5,6 +5,8 @@ public class Weapon {
 	protected String name;
 	protected int minDamage, maxDamage, stamCost, durability;
 	
+	protected final String DURABILITY_STAT_STRING = "DURABILITY : ";
+	
 	public Weapon(String name, int minDamage, int maxDamage, int stamCost, int durability) {
 		this.name = name;
 		this.minDamage = minDamage;

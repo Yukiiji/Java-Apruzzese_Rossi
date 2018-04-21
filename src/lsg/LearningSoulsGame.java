@@ -2,8 +2,8 @@ package lsg;
 
 import java.util.Scanner;
 
-import characters.Hero;
-import characters.Monster;
+import characters.*;
+import lsg.armor.*;
 import lsg.helpers.*;
 import lsg.weapons.*;
 
@@ -20,7 +20,7 @@ public class LearningSoulsGame {
 		
 		//ON créée une nouvelle instance de cette classe pour pouvoir appeler ses méthodes (elles ne sont pas statique alors que le main oui)
 		//On appelle la fonction play_v1() qui va se lancer au démarrage du programme
-		new LearningSoulsGame().play_v1();
+		new LearningSoulsGame().play_v3();
 		
 	}
 	
@@ -61,6 +61,21 @@ public class LearningSoulsGame {
 	
 	//Cette méthode est appelée dans le main. D'abord on appelle init() pour set les armes, ensuite on appelle fight1v1() pour les faire se totocher
 	public void play_v1() {
+		init();
+		fight1v1();
+	}
+	
+	public void play_v2() {
+		this.hero.setArmorItem(new RingedKnightArmor(), 1);
+		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
+		init();
+		fight1v1();
+	}
+	
+	public void play_v3() {
+		this.hero.setArmorItem(new RingedKnightArmor(), 1);
+		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
+		this.monster = new Lycanthrope();
 		init();
 		fight1v1();
 	}
