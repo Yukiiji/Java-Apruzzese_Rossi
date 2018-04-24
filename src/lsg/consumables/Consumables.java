@@ -1,4 +1,4 @@
-package consumables;
+package lsg.consumables;
 
 public class Consumables {
 	

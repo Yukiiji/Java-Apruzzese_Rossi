@@ -1,4 +1,4 @@
-package characters;
+package lsg.characters;
 
 import lsg.weapons.Claw;
 

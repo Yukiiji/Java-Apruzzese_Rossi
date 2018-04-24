@@ -1,9 +1,12 @@
-package characters;
+package lsg.characters;
+
+import lsg.buffs.talismans.Talisman;
 
 public class Monster extends Character {
 	
 	private static int instances_count = 1;
 	private float skinThickness = 20;
+	private Talisman talisman;
 	
 	public Monster(String name, int maxLife, int maxStamina) {
 		super(name);
@@ -27,11 +30,13 @@ public class Monster extends Character {
 		return skinThickness;
 	}
 
-	protected
-	void setSkinThickness(float skinThickness) {
+	protected void setSkinThickness(float skinThickness) {
 		this.skinThickness = skinThickness;
 	}
 	
+	protected void setTalisman(Talisman talisman) {
+		this.talisman = talisman;
+	}
 	@Override
 	public float computeProtection() {
 		//TP 3 Q4.2 LEs classes présentent une erreur car la méthode abstraite de la classe abstraite doit être initialisée dans toutes les sous classes

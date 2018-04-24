@@ -17,7 +17,7 @@ public class DragonSlayerRing extends Ring{
 	}
 	
 	private boolean hasDragonsSlayerItem(){
-		ArmorItem[] items = hero.getArmorItems() ;
+		ArmorItem[] items = hero.getArmorItem() ;
 		for(ArmorItem item: items){
 			if(item instanceof DragonSlayerLeggings) return true ; 
 		}

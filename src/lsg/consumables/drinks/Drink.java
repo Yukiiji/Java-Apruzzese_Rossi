@@ -1,6 +1,6 @@
-package consumables.drinks;
+package lsg.consumables.drinks;
 
-import consumables.Consumables;
+import lsg.consumables.Consumables;
 
 public class Drink extends Consumables {
 	protected String stat = "stamina";

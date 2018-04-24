@@ -1,4 +1,4 @@
-package characters;
+package lsg.characters;
 import lsg.helpers.Dice;
 import lsg.weapons.Weapon;
 
@@ -78,6 +78,14 @@ public abstract class Character {
 		return weapon;
 	}
 	
+	public int getMaxStamina() {
+		return maxStamina;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}

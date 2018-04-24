@@ -1,17 +1,22 @@
-package characters;
+package lsg.characters;
 
 import java.util.Arrays;
 
 import lsg.LearningSoulsGame;
 import lsg.armor.ArmorItem;
 import lsg.armor.DragonSlayerLeggings;
+import lsg.buffs.rings.Ring;
+import lsg.buffs.rings.RingOfSwords;
 
 public class Hero extends Character{
 	
 	//tableau d'armures du héros
 	private ArmorItem[] armor;
+	
+	private Ring[] ring;
 	//Constante disant que le héros ne peut porter que 3 pièces d'armures
 	private final int MAX_ARMOR_PIECES = 3;
+	private final int MAX_RING_PIECES = 2;
 	
 
 	public Hero(String name, int maxLife, int maxStamina) {
@@ -24,7 +29,9 @@ public class Hero extends Character{
 		//On instancie le tableau avec une taille de 3
 		this.armor = new ArmorItem[this.MAX_ARMOR_PIECES];
 		
-		//Pour chaque index du tableau on insert on objet armure, pour éviter des erreurs de null lors de l'addition d'armure
+		this.ring = new Ring[this.MAX_RING_PIECES];
+		
+		//Pour chaque index du tableau on insert un objet armure, pour éviter des erreurs de null lors de l'addition d'armure
 		for (int i = 0; i < armor.length; i++) {
 			this.armor[i] = new ArmorItem();
 		}
@@ -95,7 +102,11 @@ public class Hero extends Character{
 
 	@Override
 	public float computeProtection() {
-		//TP 3 Q4.2 LEs classes présentent une erreur car la méthode abstraite de la classe abstraite doit être initialisée dans toutes les sous classes
 		return this.getTotalArmor();
+	}
+
+	public void setRing(Ring r, int i) {
+		this.ring[i] = r;
+		
 	}
 }

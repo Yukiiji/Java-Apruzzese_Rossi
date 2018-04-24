@@ -2,7 +2,7 @@ package lsg;
 
 import java.util.Scanner;
 
-import characters.*;
+import lsg.characters.*;
 import lsg.armor.*;
 import lsg.helpers.*;
 import lsg.weapons.*;
