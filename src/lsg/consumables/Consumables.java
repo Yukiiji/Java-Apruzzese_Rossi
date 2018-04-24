@@ -12,7 +12,7 @@ public class Consumables {
 	}
 	
 	
-	//Getteers
+	//Getters
 
 	public String getName() {
 		return name;
@@ -37,7 +37,7 @@ public class Consumables {
 	// Methodes
 
 	public String toString() {
-		return this.name + " [" + this.capacity + " " + this.stat + "]";
+		return this.name + " [" + this.stat + " " + this.capacity + " point(s)]";
 	}
 	
 	public int use() {

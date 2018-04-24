@@ -1,4 +1,7 @@
 package lsg.characters;
+import lsg.consumables.food.*;
+import lsg.consumables.*;
+import lsg.consumables.drinks.*;
 import lsg.helpers.Dice;
 import lsg.weapons.Weapon;
 
@@ -14,9 +17,9 @@ public abstract class Character {
 	protected Dice dice;
 	protected Weapon weapon;
 	
-	protected final String LIFE_STAT_STRING = "LIFE : ";
-	protected final String STAM_STAT_STRING = "STAMINA : ";
-	protected final String DEF_STAT_STRING = "DEFENSE : ";
+	public static final String LIFE_STAT_STRING = "LIFE : ";
+	public static final String STAM_STAT_STRING = "STAMINA : ";
+	public static final String DEF_STAT_STRING = "DEFENSE : ";
 	
 	//Constructeur avec nom. Si un character est créé avec un nom passé en paramètre, on appelle d'abord le constructeur sans paramètre avec this()
 	// puis on s'occuper de set le nom
@@ -159,5 +162,46 @@ public abstract class Character {
 		System.out.println("ATTACK : " + damage + " | " + foe.name + " DAMAGE TAKEN : " + damageAfterProtecc);
 		System.out.println("Il reste " +foe.getLife()+" PV à "+ foe.name);
 		System.out.println("\n");
+	}
+	
+	
+	public void use(Consumables consumable) {
+		
+		int used = consumable instanceof Drink ? this.drink((Drink) consumable) : this.eat((Food) consumable);
+		System.out.println(used);
+	}
+	
+	private int drink(Drink drink) {
+		
+		int ammountRecovered;
+		System.out.println(this.name + " drinks " + drink);
+		
+		if (drink.use() >= (this.getMaxStamina() - this.getStamina())) {
+			ammountRecovered = this.getMaxStamina() - this.getStamina();
+			this.setStamina(this.getMaxStamina());
+		}
+		else {
+			this.setStamina(this.getStamina() + drink.use());
+			ammountRecovered = drink.use();
+		}
+		
+		return ammountRecovered;
+	}
+	
+	private int eat(Food food) {
+		
+		int ammountRecovered;
+		System.out.println(this.name + " eats " + food);
+		
+		if (food.use() >= (this.getMaxLife() - this.getLife())) {
+			ammountRecovered = this.getMaxLife() - this.getLife();
+			this.setLife(this.getMaxLife());
+		}
+		else {
+			this.setLife(this.getLife() + food.use());
+			ammountRecovered = food.use();
+		}
+		
+		return ammountRecovered;
 	}
 }
