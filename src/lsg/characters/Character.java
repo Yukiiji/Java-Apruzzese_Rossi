@@ -1,6 +1,7 @@
 package lsg.characters;
 import lsg.consumables.food.*;
 import lsg.consumables.repair.RepairKit;
+import lsg.bags.*;
 import lsg.consumables.*;
 import lsg.consumables.drinks.*;
 import lsg.helpers.Dice;
@@ -19,6 +20,8 @@ public abstract class Character {
 	protected Weapon weapon;
 	protected Consumables consumable;
 	
+	private Bag bag;
+	
 	public static final String LIFE_STAT_STRING = "LIFE : ";
 	public static final String STAM_STAT_STRING = "STAMINA : ";
 	public static final String DEF_STAT_STRING = "DEFENSE : ";
@@ -33,6 +36,7 @@ public abstract class Character {
 	//Constructeur de base
 	public Character() {
 		dice = new Dice(101);
+		this.bag = new SmallBag();
 	}
 	
 
@@ -228,6 +232,75 @@ public abstract class Character {
 	private void repairWeaponWith(RepairKit kit) {
 		System.out.println(this.name + " repairs " + this.getWeapon().toString() + " with " + kit.toString());
 		this.getWeapon().setDurability(this.getWeapon().getDurability() + kit.use());
-		
+	}
+	
+	
+	public void pickUp(Collectible item) {
+		if (item.getWeight() > this.bag.getCapacity() - this.bag.getWeight()) {
+			this.bag.push(item);
+			System.out.println(this.getName() + " picked up " + item.toString());
+		}
+	}
+	
+	public Collectible pullOut(Collectible item) {
+		Collectible pull = this.bag.pop(item);
+		if (pull != null) {
+			System.out.println(this.getName() + " pulls out " + item.toString());
+			return pull;
+		}
+		return null;
+	}
+	
+	public void printBag() {
+		System.out.println(this.bag.toString());
+	}
+	
+	public int getBagCapacity() {
+		return this.bag.getCapacity();
+	}
+	
+	public int getBagWeighth() {
+		return this.bag.getCapacity() - this.bag.getWeight();
+	}
+	
+	public Collectible[] getBagItems() {
+		return this.bag.getItems();
+	}
+	
+	public Bag setBag(Bag bag) {
+		Bag.transfer(this.bag, bag);
+		Bag oldBag = this.bag;
+		this.bag = bag;
+		System.out.println(this.name + " change " + oldBag.getClass().getSimpleName() + " to " + this.bag);
+		return oldBag;
+	}
+	
+	public void equip(Weapon weapon) {
+		if (this.bag.pop(weapon) != null) {
+			this.setWeapon(weapon);
+			System.out.println(this.getName() + " pulls out " + weapon.toString() + " and equips it !");
+		}
+	}
+	
+	public void equip(Consumables consumable) {
+		if (this.bag.pop(consumable) != null) {
+			this.setConsumable(consumable);
+			System.out.println(this.getName() + " pulls out " + consumable.toString() + " and equips it !");
+		}
+	}
+	
+	
+	private void fastUseFirst(Consumables type) {
+		Collectible[] items = this.getBagItems();
+		boolean ok = false;
+		for (int i = 0; i < items.length; i++) {
+			if (ok) {
+				break;
+			}
+			if (items[i] instanceof Consumables) {
+				this.consume((type)items[i]);
+				ok = true;
+			}
+		}
 	}
 }

@@ -2,9 +2,12 @@ package lsg.buffs;
 
 import java.util.Locale;
 
-public abstract class BuffItem {
+import lsg.bags.Collectible;
+
+public abstract class BuffItem implements Collectible{
 	
 	private String name ; 
+	protected int weight = 1;
 	
 	public BuffItem(String name) {
 		this.name = name ;
@@ -21,4 +24,8 @@ public abstract class BuffItem {
 		return String.format(Locale.US, "[%s, %.2f]", getName(), computeBuffValue()) ;
 	}
 	
+	@Override
+	public int getWeight() {
+		return this.weight;
+	}
 }

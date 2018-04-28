@@ -1,11 +1,13 @@
 package lsg.weapons;
 
+import lsg.bags.Collectible;
 import lsg.consumables.repair.RepairKit;
 
-public class Weapon {
+public class Weapon implements Collectible{
 	
 	protected String name;
 	protected int minDamage, maxDamage, stamCost, durability;
+	protected int weight = 2;
 	
 	public static final String DURABILITY_STAT_STRING = "DURABILITY : ";
 	
@@ -91,5 +93,10 @@ public class Weapon {
 	
 	public void repairWith(RepairKit kit) {
 		kit.use();
+	}
+
+	@Override
+	public int getWeight() {
+		return this.weight;
 	}
 }

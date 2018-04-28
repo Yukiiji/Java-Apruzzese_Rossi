@@ -5,8 +5,10 @@ import java.util.Arrays;
 import lsg.LearningSoulsGame;
 import lsg.armor.ArmorItem;
 import lsg.armor.DragonSlayerLeggings;
+import lsg.bags.Collectible;
 import lsg.buffs.rings.Ring;
 import lsg.buffs.rings.RingOfSwords;
+import lsg.weapons.Weapon;
 
 public class Hero extends Character{
 	
@@ -120,5 +122,32 @@ public class Hero extends Character{
 		}
 		System.out.println(this.ring[slot-1]);
 		return 1;
+	}
+	
+	
+	public void equip(ArmorItem armor, int slot) {
+		
+		Collectible[] items = this.getBagItems();
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] == armor) {
+				if (this.setArmorItem(armor, slot) != 0) {
+					this.pullOut(items[i]);
+					System.out.println(this.getName() + " pulls out " + armor.toString() + " and equips it !");
+				}
+			}
+		}
+	}
+	
+	public void equip(Ring r, int slot) {
+		
+		Collectible[] items = this.getBagItems();
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] == r) {
+				if (this.setRing(r, slot) != 0) {
+					this.pullOut(items[i]);
+					System.out.println(this.getName() + " pulls out " + r.toString() + " and equips it !");
+				}
+			}
+		}
 	}
 }

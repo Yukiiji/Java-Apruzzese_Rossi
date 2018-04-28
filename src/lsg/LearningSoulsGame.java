@@ -5,8 +5,12 @@ import java.util.Scanner;
 import lsg.characters.*;
 //import lsg.consumables.Consumables;
 import lsg.consumables.*;
+import lsg.consumables.drinks.Wine;
 import lsg.consumables.food.*;
 import lsg.armor.*;
+import lsg.bags.Bag;
+import lsg.bags.MediumBag;
+import lsg.bags.SmallBag;
 import lsg.weapons.*;
 
 public class LearningSoulsGame {
@@ -128,5 +132,36 @@ public class LearningSoulsGame {
 			System.out.println("\n");
 		}
 		ea.getWeapon().whatIsMyWeapon();
+	}
+	
+	public void testBag() {
+		
+		this.ea = new Hero();
+		this.ea.setBag(new MediumBag());
+		SmallBag sb = new SmallBag();
+		Bag tb = new Bag(5);
+		
+		DragonSlayerLeggings dsl = new DragonSlayerLeggings();
+		DragonSlayerLeggings dsl2 = new DragonSlayerLeggings();
+		
+		sb.push(dsl);
+		sb.push(dsl2);
+		sb.push(new Wine());
+		sb.push(new Sword("Enuma Elish", 1, 999, 50, 1000));
+		
+		System.out.println(sb.toString());
+		System.out.println(tb.toString());
+		
+		System.out.println("\n");
+		
+		
+		System.out.println("Popped 1 DSL\n");
+		sb.pop(dsl);
+		System.out.println(sb.toString());
+		
+		System.out.println("\nTransfer from Small to tiny bag\n");
+		Bag.transfer(sb, tb);
+		System.out.println(sb.toString());
+		System.out.println(tb.toString());
 	}
 }

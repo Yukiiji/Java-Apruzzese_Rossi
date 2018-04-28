@@ -1,9 +1,12 @@
 package lsg.consumables;
 
-public class Consumables {
+import lsg.bags.Collectible;
+
+public class Consumables implements Collectible{
 	
 	private String name, stat;
 	private int capacity;
+	protected int weight = 1;
 	
 	public Consumables(String name, int capacity, String stat) {
 		this.name = name;
@@ -44,5 +47,11 @@ public class Consumables {
 		int capacity = this.getCapacity();
 		this.setCapacity(0);
 		return capacity;
+	}
+
+
+	@Override
+	public int getWeight() {
+		return this.weight;
 	}
 }
