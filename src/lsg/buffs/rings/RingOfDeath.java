@@ -10,6 +10,9 @@ public class RingOfDeath extends Ring{
 		super("Ring of Death", 10000) ;
 	}
 
+	/**
+	 * Le ring of death n'octroie sa puissance au héros uniquement si ses pv tombent en dessous de la moitié de sa vie max
+	 */
 	@Override
 	public float computeBuffValue() {
 		if (hero != null){

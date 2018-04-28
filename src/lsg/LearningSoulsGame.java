@@ -5,10 +5,13 @@ import java.util.Scanner;
 import lsg.characters.*;
 //import lsg.consumables.Consumables;
 import lsg.consumables.*;
+import lsg.consumables.food.*;
 import lsg.armor.*;
 import lsg.weapons.*;
 
 public class LearningSoulsGame {
+	
+	public static final String BULLET_POINT = "\u2219";
 	
 	//On instancie notre héros et notre monstre
 	Hero hero = new Hero("Le chevalier Couscous", 250, 100);
@@ -20,16 +23,18 @@ public class LearningSoulsGame {
 //Main : ce qui se lance lors de la compilation
 	public static void main(String[] args) {
 		
-		//new LearningSoulsGame().play_v3();
-		LearningSoulsGame lsg = new LearningSoulsGame();
-		lsg.createExhaustedHero();
-		lsg.aTable();
+		new LearningSoulsGame().play_v3();
+		//LearningSoulsGame lsg = new LearningSoulsGame();
+		//lsg.createExhaustedHero();
+		//lsg.aTable();
 		
 	}
 	
 		//Fonction qui affiche les stats du héros et du monstre
 	public void refresh() {
 		this.hero.printStats();
+		System.out.println(LearningSoulsGame.BULLET_POINT + this.hero.getWeapon().toString());
+		System.out.println(LearningSoulsGame.BULLET_POINT + this.hero.getConsumable().toString());
 		this.monster.printStats();
 	}
 	
@@ -37,17 +42,39 @@ public class LearningSoulsGame {
 	// -> On check si  lemonstre est toujours en vie après l'attaque -> On fait pareil mais avec le monstre qui attaque
 	public int fight1v1() {
 		while (this.hero.isAlive() && this.monster.isAlive()) {
+			
 			refresh();
-			this.hero.battle(this.monster);
-			String str = scan.nextLine();
+			System.out.println("Action : attack (1) | consume (2)");
+			int action = scan.nextInt();
+			boolean foo = true;
+			
+			while (foo) {
+				switch (action) {
+				case 1:
+					this.hero.battle(this.monster);
+					foo = false;
+					break;
+					
+				case 2:
+					this.hero.consume();
+					foo = false;
+					break;
+
+				default:
+					System.out.println("Action : attack (1) | consume (2)");
+					action = scan.nextInt();
+					break;
+				}
+			}
+			
 			if (!this.monster.isAlive()) {
 				System.out.println(this.hero.getName() + " est victorieux !");
 				return 0;
 			}
 			
-			refresh();
+			//refresh();
 			this.monster.battle(this.hero);
-			str = scan.nextLine();
+			//action = scan.nextInt();
 			if (!this.hero.isAlive()) {
 				System.out.println(this.monster.getName() + " vous a mangé ...");
 				return 0;
@@ -59,6 +86,7 @@ public class LearningSoulsGame {
 	// Cette méthode va set les armes de nos personnages
 	public void init() {
 		this.hero.setWeapon(new Sword("La couscoussière", 60, 100, 15, 100));
+		this.hero.setConsumable(new Hamburger());
 		this.monster.setWeapon(new Claw("La jugulaire", 25, 125, 9, 175));
 	}
 	
@@ -99,5 +127,6 @@ public class LearningSoulsGame {
 			this.ea.printStats();
 			System.out.println("\n");
 		}
+		ea.getWeapon().whatIsMyWeapon();
 	}
 }

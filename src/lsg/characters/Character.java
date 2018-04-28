@@ -1,5 +1,6 @@
 package lsg.characters;
 import lsg.consumables.food.*;
+import lsg.consumables.repair.RepairKit;
 import lsg.consumables.*;
 import lsg.consumables.drinks.*;
 import lsg.helpers.Dice;
@@ -16,6 +17,7 @@ public abstract class Character {
 	
 	protected Dice dice;
 	protected Weapon weapon;
+	protected Consumables consumable;
 	
 	public static final String LIFE_STAT_STRING = "LIFE : ";
 	public static final String STAM_STAT_STRING = "STAMINA : ";
@@ -87,6 +89,14 @@ public abstract class Character {
 
 	public int getMaxLife() {
 		return maxLife;
+	}
+
+	public Consumables getConsumable() {
+		return consumable;
+	}
+
+	public void setConsumable(Consumables consumable) {
+		this.consumable = consumable;
 	}
 
 	public void setWeapon(Weapon weapon) {
@@ -167,41 +177,57 @@ public abstract class Character {
 	
 	public void use(Consumables consumable) {
 		
-		int used = consumable instanceof Drink ? this.drink((Drink) consumable) : this.eat((Food) consumable);
-		System.out.println(used);
+		if (consumable instanceof Drink) {
+			this.drink((Drink) consumable);
+		}
+		if (consumable instanceof Food) {
+			this.eat((Food) consumable);
+		}
+		if (consumable instanceof RepairKit) {
+			this.repairWeaponWith((RepairKit) consumable);
+		}
 	}
 	
 	private int drink(Drink drink) {
 		
-		int ammountRecovered;
 		System.out.println(this.name + " drinks " + drink);
 		
-		if (drink.use() >= (this.getMaxStamina() - this.getStamina())) {
-			ammountRecovered = this.getMaxStamina() - this.getStamina();
+		int oldStam = this.getStamina();
+		int regenPower = drink.use();
+		if (oldStam + regenPower > this.getMaxStamina()) {
 			this.setStamina(this.getMaxStamina());
+			return this.computeRecovered(oldStam, regenPower, this.getMaxStamina());
 		}
-		else {
-			this.setStamina(this.getStamina() + drink.use());
-			ammountRecovered = drink.use();
-		}
-		
-		return ammountRecovered;
+		this.setStamina(this.getStamina() + regenPower);
+		return regenPower;
 	}
 	
 	private int eat(Food food) {
 		
-		int ammountRecovered;
 		System.out.println(this.name + " eats " + food);
 		
-		if (food.use() >= (this.getMaxLife() - this.getLife())) {
-			ammountRecovered = this.getMaxLife() - this.getLife();
+		int oldLife = this.getLife();
+		int regenPower = food.use();
+		if (oldLife + regenPower > this.getMaxLife()) {
 			this.setLife(this.getMaxLife());
+			return this.computeRecovered(oldLife, regenPower, this.getMaxLife());
 		}
-		else {
-			this.setLife(this.getLife() + food.use());
-			ammountRecovered = food.use();
-		}
+		this.setLife(this.getLife() + regenPower);
+		return regenPower;
+	}
+	
+	private int computeRecovered(int old, int regenPower, int max) {
+		int temp = (old + regenPower) - max;
+		return regenPower - temp;
+	}
+	
+	public void consume() {
+		this.use(this.getConsumable());
+	}
+	
+	private void repairWeaponWith(RepairKit kit) {
+		System.out.println(this.name + " repairs " + this.getWeapon().toString() + " with " + kit.toString());
+		this.getWeapon().setDurability(this.getWeapon().getDurability() + kit.use());
 		
-		return ammountRecovered;
 	}
 }

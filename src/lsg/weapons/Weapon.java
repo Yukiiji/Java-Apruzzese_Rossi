@@ -1,5 +1,7 @@
 package lsg.weapons;
 
+import lsg.consumables.repair.RepairKit;
+
 public class Weapon {
 	
 	protected String name;
@@ -85,5 +87,9 @@ public class Weapon {
 	
 	public void whatIsMyWeapon() {
 		System.out.println(this.toString());
+	}
+	
+	public void repairWith(RepairKit kit) {
+		kit.use();
 	}
 }

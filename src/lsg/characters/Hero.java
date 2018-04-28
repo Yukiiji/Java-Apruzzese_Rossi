@@ -45,6 +45,7 @@ public class Hero extends Character{
 		this.stamina = 50;
 		this.maxStamina = 50;
 		this.armor = new ArmorItem[this.MAX_ARMOR_PIECES];
+		this.ring = new Ring[this.MAX_RING_PIECES];
 		for (int i = 0; i < armor.length; i++) {
 			this.armor[i] = new ArmorItem();
 		}
@@ -105,8 +106,19 @@ public class Hero extends Character{
 		return this.getTotalArmor();
 	}
 
-	public void setRing(Ring r, int i) {
-		this.ring[i] = r;
-		
+	public float setRing(Ring r, int slot) {
+		if (slot < 0 || slot > this.MAX_RING_PIECES) {
+			return 0;
+		} 
+		this.ring[slot - 1] = r;
+		return 1;
+	}
+	
+	public int getRing(int slot) {
+		if (slot < 0 || slot > this.MAX_RING_PIECES) {
+			return 0;
+		}
+		System.out.println(this.ring[slot-1]);
+		return 1;
 	}
 }
