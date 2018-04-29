@@ -43,4 +43,10 @@ public class Monster extends Character {
 		return this.skinThickness;
 	}
 
+	@Override
+	public float computeBuff() {
+
+		return this.talisman.computeBuffValue();
+	}
+
 }

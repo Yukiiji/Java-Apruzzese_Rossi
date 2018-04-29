@@ -111,14 +111,26 @@ public class Hero extends Character{
 			return 0;
 		} 
 		this.ring[slot - 1] = r;
+		r.setHero(this);
 		return 1;
 	}
 	
-	public int getRing(int slot) {
+	public Ring getRing(int slot) {
 		if (slot < 0 || slot > this.MAX_RING_PIECES) {
-			return 0;
+			return null;
 		}
-		System.out.println(this.ring[slot-1]);
-		return 1;
+		return this.ring[slot-1];
 	}
+
+	@Override
+	public float computeBuff() {
+
+		float totalBuff = 0;
+		for (Ring r : this.ring) {
+			totalBuff += r.computeBuffValue();
+		}
+		return totalBuff;
+	}
+	
+	
 }

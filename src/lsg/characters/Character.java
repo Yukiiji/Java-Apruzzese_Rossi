@@ -112,9 +112,9 @@ public abstract class Character {
 	
 	public String toString() {
 		if(this.isAlive() == false) {
-			return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-20s", "Dead");
+			return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-30s", "BUFF : " + this.computeBuff()) + String.format("%-20s", "Dead");
 		}
-		return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-20s", "Alive");
+		return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina)+ String.format("%-30s", "BUFF : " + this.computeBuff()) + String.format("%-20s", "Alive");
 	}
 	
 	public Boolean isAlive(){
@@ -132,7 +132,6 @@ public abstract class Character {
 			return 0;
 		}
 		
-		//int staminaAfterHit = (this.stamina * 100) / weapon.getStamCost();
 		int rollToDamage = (this.dice.roll() * (weapon.getMaxDamage()-weapon.getMinDamage())) / 100;
 		damage = (weapon.getMinDamage() + Math.round(rollToDamage));
 		if (this.stamina < weapon.getStamCost()) {
@@ -140,6 +139,8 @@ public abstract class Character {
 			damage = (int)multiplier;
 		}
 		
+		float buffToDamage = (float) ((this.computeBuff() / 100) * damage);
+		damage += (int) buffToDamage;
 
 		weapon.setDurability(weapon.getDurability()-1);
 		this.stamina -= weapon.getStamCost();
@@ -163,6 +164,7 @@ public abstract class Character {
 	}
 	
 	public abstract float computeProtection();
+	public abstract float computeBuff();
 	
 	public void battle(Character foe) {
 		int damage = this.attack();
