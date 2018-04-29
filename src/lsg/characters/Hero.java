@@ -162,4 +162,19 @@ public class Hero extends Character{
 			}
 		}
 	}
+	
+	public String ringToString() {
+		String slot1;
+		String slot2;
+		
+		slot1 = this.ring[0] != null ? this.ring[0].toString() : "empty";
+		slot2 = this.ring[1] != null  ? this.ring[1].toString() : "empty";
+
+		
+		return String.format("%-20s", "RINGS") + String.format("%-40s", "1 : " + slot1) + String.format("%-40s", "2 : " + slot2);
+	}
+	
+	public void printRings() {
+		System.out.println(this.ringToString());
+	}
 }

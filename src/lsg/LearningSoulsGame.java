@@ -3,10 +3,10 @@ package lsg;
 import java.util.Scanner;
 
 import lsg.characters.*;
-//import lsg.consumables.Consumables;
 import lsg.consumables.*;
 import lsg.consumables.drinks.Wine;
 import lsg.consumables.food.*;
+import lsg.exceptions.WeaponNullException;
 import lsg.armor.*;
 import lsg.bags.Bag;
 import lsg.bags.MediumBag;
@@ -16,7 +16,7 @@ import lsg.weapons.*;
 
 public class LearningSoulsGame {
 	
-	public static final String BULLET_POINT = "\u2219";
+	public static final String BULLET_POINT = "  \u2022 ";
 	
 	//On instancie notre héros et notre monstre
 	Hero hero = new Hero("Le chevalier Couscous", 250, 100);
@@ -26,22 +26,27 @@ public class LearningSoulsGame {
 	private Hero ea;
 
 //Main : ce qui se lance lors de la compilation
-	public static void main(String[] args) {
+	public static void main(String[] args) throws WeaponNullException {
 		
-		//new LearningSoulsGame().play_v3();
 		LearningSoulsGame lsg = new LearningSoulsGame();
-		//lsg.createExhaustedHero();
-		//lsg.aTable();
-		lsg.testBag();
+		lsg.init();
+		
+		lsg.testExceptions();
 		
 	}
 	
 		//Fonction qui affiche les stats du héros et du monstre
 	public void refresh() {
 		this.hero.printStats();
-		System.out.println(LearningSoulsGame.BULLET_POINT + this.hero.getWeapon().toString());
-		System.out.println(LearningSoulsGame.BULLET_POINT + this.hero.getConsumable().toString());
+		System.out.println(this.hero.armorToString());
+		this.hero.printRings();
+		this.hero.printConsumable();
+		this.hero.printWeapon();
+		this.hero.printBag();
+		
+		System.out.println("\n");
 		this.monster.printStats();
+		this.monster.printWeapon();
 	}
 	
 	//tant que les héros et monstre sont en vie, on affiche leurs stats avec refresh -> le heros attaque -> on attends la saisie utilisateur
@@ -57,7 +62,13 @@ public class LearningSoulsGame {
 			while (foo) {
 				switch (action) {
 				case 1:
-					this.hero.battle(this.monster);
+					try {
+						this.hero.battle(this.monster);
+					} catch (WeaponNullException e) {
+						// TODO Auto-generated catch block
+						this.hero.setWeapon(new Weapon("no weapon", 0, 0, 0, 2));
+						System.out.println("No weapon has been equipped");
+					}
 					foo = false;
 					break;
 					
@@ -79,7 +90,12 @@ public class LearningSoulsGame {
 			}
 			
 			//refresh();
-			this.monster.battle(this.hero);
+			try {
+				this.monster.battle(this.hero);
+			} catch (WeaponNullException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//action = scan.nextInt();
 			if (!this.hero.isAlive()) {
 				System.out.println(this.monster.getName() + " vous a mangé ...");
@@ -97,12 +113,12 @@ public class LearningSoulsGame {
 	}
 	
 	//Cette méthode est appelée dans le main. D'abord on appelle init() pour set les armes, ensuite on appelle fight1v1() pour les faire se totocher
-	public void play_v1() {
+	public void play_v1(){
 		init();
 		fight1v1();
 	}
 	
-	public void play_v2() {
+	public void play_v2(){
 		this.hero.setArmorItem(new RingedKnightArmor(), 1);
 		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
 		init();
@@ -116,56 +132,18 @@ public class LearningSoulsGame {
 		this.monster = new Lycanthrope();
 		init();
 		fight1v1();
+
 	}
 	
+	public void createExhaustedHero() throws WeaponNullException {
+        this.ea.getHitWith(99);
+        this.ea.setWeapon(new Weapon("Enuùma-KUN", 0, 0, 1000, 100));
+        this.ea.attack();
+        this.ea.printStats();
+    }
 	
-	public void createExhaustedHero() {
-		this.ea = new Hero();
-		this.ea.getHitWith(99);
-		this.ea.setWeapon(new Weapon("ENORME GOURDIN", 0, 0, 1000, 100));
-		this.ea.attack();
-		this.ea.printStats();
-		System.out.println("\n");
-	}
-	public void aTable() {
-		MenuBestOfV4 aLaCarte = new MenuBestOfV4();
-		for (Consumables consumable : aLaCarte.getMenu()) {
-			this.ea.use(consumable);
-			this.ea.printStats();
-			System.out.println("\n");
-		}
-		ea.getWeapon().whatIsMyWeapon();
-	}
-	
-	public void testBag() {
-		
-		this.ea = new Hero();
-		Bag mb = new MediumBag();
-		this.ea.setBag(mb);
-		Bag bb = new SmallBag();
-		
-		DragonSlayerLeggings dsl = new DragonSlayerLeggings();
-		DragonSlayerLeggings dsl2 = new DragonSlayerLeggings();
-		
-		ea.pickUp(dsl);
-		ea.pickUp(dsl2);
-		ea.pickUp(new Wine());
-		ea.pickUp(new Sword("Enuma Elish", 1, 999, 50, 1000));
-		ea.printBag();
-		
-		System.out.println("\n");
-		
-		ea.pullOut(dsl);
-		ea.printBag();
-		
-		Bag.transfer(mb, bb);
-		System.out.println(bb.toString());
-		ea.printBag();
-	
-		RingOfDeath ringOfDeath = new RingOfDeath();
-		ea.pickUp(ringOfDeath);
-		ea.printBag();
-		ea.equip(ringOfDeath, 1);
-		ea.printBag();
+	public void testExceptions() throws WeaponNullException {
+		this.hero.setWeapon(null);
+		this.fight1v1();
 	}
 }

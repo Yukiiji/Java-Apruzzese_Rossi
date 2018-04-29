@@ -1,6 +1,7 @@
 package lsg.characters;
 import lsg.consumables.food.*;
 import lsg.consumables.repair.RepairKit;
+import lsg.exceptions.WeaponNullException;
 import lsg.bags.*;
 import lsg.consumables.*;
 import lsg.consumables.drinks.*;
@@ -125,12 +126,16 @@ public abstract class Character {
 		return this.life <= 0 ? false : true;
 	}
 	
-	public int attack() {
+	public int attack() throws WeaponNullException {
 		return attackWith(this.weapon);
 	}
 	
-	private int attackWith(Weapon weapon) {
+	private int attackWith(Weapon weapon) throws WeaponNullException {
 		int damage = 0;
+		
+		if (weapon == null) {
+			throw new WeaponNullException();
+		}
 		double multiplier = 0.0;
 		if (weapon.isBroken()) {
 			return 0;
@@ -171,7 +176,7 @@ public abstract class Character {
 	public abstract float computeProtection();
 	public abstract float computeBuff();
 	
-	public void battle(Character foe) {
+	public void battle(Character foe) throws WeaponNullException {
 		int damage = this.attack();
 		int damageAfterProtecc = foe.getHitWith(damage);
 		System.out.println();
@@ -255,7 +260,7 @@ public abstract class Character {
 	}
 	
 	public void printBag() {
-		System.out.println(this.bag.toString());
+		System.out.println("BAG : " + this.bag.toString());
 	}
 	
 	public int getBagCapacity() {
@@ -331,5 +336,13 @@ public abstract class Character {
     
     public Drink fastDrink() {
         return (Drink)this.fastUseFirst(Drink.class);
+    }
+    
+    public void printConsumable() {
+    	System.out.println("CONSUMABLE : " + this.getConsumable());
+    }
+    
+    public void printWeapon() {
+    	System.out.println("WEAPON : " + this.getWeapon());
     }
 }
