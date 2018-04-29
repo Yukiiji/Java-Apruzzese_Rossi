@@ -42,5 +42,14 @@ public class Monster extends Character {
 		//TP 3 Q4.2 LEs classes présentent une erreur car la méthode abstraite de la classe abstraite doit être initialisée dans toutes les sous classes
 		return this.skinThickness;
 	}
+	
+	@Override
+	public float computeBuff() {
+		
+		if (this.talisman != null) {
+			return this.talisman.computeBuffValue();
+		}
+		return 0;
+}
 
 }

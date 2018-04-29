@@ -11,6 +11,7 @@ import lsg.armor.*;
 import lsg.bags.Bag;
 import lsg.bags.MediumBag;
 import lsg.bags.SmallBag;
+import lsg.buffs.rings.RingOfDeath;
 import lsg.weapons.*;
 
 public class LearningSoulsGame {
@@ -110,6 +111,7 @@ public class LearningSoulsGame {
 	public void play_v3() {
 		this.hero.setArmorItem(new RingedKnightArmor(), 1);
 		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
+		this.hero.setRing(new RingOfDeath(), 1);
 		this.monster = new Lycanthrope();
 		init();
 		fight1v1();
