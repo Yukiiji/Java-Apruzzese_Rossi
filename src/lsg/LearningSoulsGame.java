@@ -28,10 +28,11 @@ public class LearningSoulsGame {
 //Main : ce qui se lance lors de la compilation
 	public static void main(String[] args) {
 		
-		new LearningSoulsGame().play_v3();
-		//LearningSoulsGame lsg = new LearningSoulsGame();
+		//new LearningSoulsGame().play_v3();
+		LearningSoulsGame lsg = new LearningSoulsGame();
 		//lsg.createExhaustedHero();
 		//lsg.aTable();
+		lsg.testBag();
 		
 	}
 	
@@ -139,31 +140,32 @@ public class LearningSoulsGame {
 	public void testBag() {
 		
 		this.ea = new Hero();
-		this.ea.setBag(new MediumBag());
-		SmallBag sb = new SmallBag();
-		Bag tb = new Bag(5);
+		Bag mb = new MediumBag();
+		this.ea.setBag(mb);
+		Bag bb = new SmallBag();
 		
 		DragonSlayerLeggings dsl = new DragonSlayerLeggings();
 		DragonSlayerLeggings dsl2 = new DragonSlayerLeggings();
 		
-		sb.push(dsl);
-		sb.push(dsl2);
-		sb.push(new Wine());
-		sb.push(new Sword("Enuma Elish", 1, 999, 50, 1000));
-		
-		System.out.println(sb.toString());
-		System.out.println(tb.toString());
+		ea.pickUp(dsl);
+		ea.pickUp(dsl2);
+		ea.pickUp(new Wine());
+		ea.pickUp(new Sword("Enuma Elish", 1, 999, 50, 1000));
+		ea.printBag();
 		
 		System.out.println("\n");
 		
+		ea.pullOut(dsl);
+		ea.printBag();
 		
-		System.out.println("Popped 1 DSL\n");
-		sb.pop(dsl);
-		System.out.println(sb.toString());
-		
-		System.out.println("\nTransfer from Small to tiny bag\n");
-		Bag.transfer(sb, tb);
-		System.out.println(sb.toString());
-		System.out.println(tb.toString());
+		Bag.transfer(mb, bb);
+		System.out.println(bb.toString());
+		ea.printBag();
+	
+		RingOfDeath ringOfDeath = new RingOfDeath();
+		ea.pickUp(ringOfDeath);
+		ea.printBag();
+		ea.equip(ringOfDeath, 1);
+		ea.printBag();
 	}
 }

@@ -239,7 +239,7 @@ public abstract class Character {
 	
 	
 	public void pickUp(Collectible item) {
-		if (item.getWeight() > this.bag.getCapacity() - this.bag.getWeight()) {
+		if (item.getWeight() <= this.bag.getCapacity() - this.bag.getWeight()) {
 			this.bag.push(item);
 			System.out.println(this.getName() + " picked up " + item.toString());
 		}
