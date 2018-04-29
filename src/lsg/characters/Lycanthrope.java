@@ -4,6 +4,9 @@ import lsg.weapons.Claw;
 
 public class Lycanthrope extends Monster {
 
+	/**
+	 * Constructeur
+	 */
 	public Lycanthrope() {
 		super("Lycanthrope", 210, 300);
 		this.setSkinThickness(30);

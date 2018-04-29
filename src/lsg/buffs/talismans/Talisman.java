@@ -9,6 +9,13 @@ public class Talisman extends BuffItem {
 	private float buff ;
 	private int start, end ; 
 	
+	/**
+	 * Constructeur
+	 * @param name
+	 * @param buff
+	 * @param start
+	 * @param end
+	 */
 	public Talisman(String name, float buff, int start, int end) {
 		super(name) ;
 		this.buff = buff ;
@@ -16,6 +23,9 @@ public class Talisman extends BuffItem {
 		this.end = end ;
 	}
 	
+	/**
+	 * Calcule si le buff est actif ou non, selon l'heure qu'il est et en fonction des paramètres start et end
+	 */
 	@Override
 	public float computeBuffValue() {
 		int now = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) ;

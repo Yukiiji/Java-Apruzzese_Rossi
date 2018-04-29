@@ -9,6 +9,10 @@ public class Bag {
 	private int weight = 0;
 	private HashSet<Collectible> items = new LinkedHashSet<Collectible>();
 	
+	/**
+	 * Constructeur
+	 * @param capacity
+	 */
 	public Bag(int capacity) {
 		this.capacity = capacity;
 	}
@@ -16,16 +20,29 @@ public class Bag {
 	
 	//Getters
 	
+	/**
+	 * getter
+	 * @return capacity
+	 */
 	public int getCapacity() {
 		return capacity;
 	}
 
+
+	/**
+	 * getter
+	 * @return weight
+	 */
 	public int getWeight() {
 		return weight;
 	}
 	
 	//Methods
 	
+	/**
+	 * Ajoute un objet dans le sac si il n'est pas trop lourd
+	 * @param item
+	 */
 	public void push(Collectible item) {
 		if (item.getWeight() > this.getCapacity() - this.getWeight()) {
 			
@@ -35,6 +52,11 @@ public class Bag {
 		}
 	}
 	
+	/**
+	 * Si il existe retire un objet du sac
+	 * @param item
+	 * @return
+	 */
 	public Collectible pop(Collectible item) {
 
 		if (this.contains(item)) {
@@ -46,11 +68,20 @@ public class Bag {
 		}
 	}
 	
+	/**
+	 * Vérifie si un objet existe dans le sac
+	 * @param item
+	 * @return
+	 */
 	public boolean contains(Collectible item) {
 		
 		return this.items.contains(item) ? true : false;
 	}
 	
+	/**
+	 * Retourne un tableau des objets présents dans le sac
+	 * @return
+	 */
 	public Collectible[] getItems() {
 		
 		Collectible[] content = new Collectible[this.capacity];
@@ -62,6 +93,10 @@ public class Bag {
 		return content;
 	}
 	
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		
 		int count = 0;
@@ -83,6 +118,11 @@ public class Bag {
 		}
 	}
 	
+	/**
+	 * Transférer le sobjets d'un sac a à un sac b
+	 * @param from
+	 * @param into
+	 */
 	public static void transfer(Bag from, Bag into) {
 		
 		Collectible[] fromContent = from.getItems();

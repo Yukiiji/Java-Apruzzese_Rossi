@@ -29,14 +29,18 @@ public abstract class Character {
 	public static final String STAM_STAT_STRING = "STAMINA : ";
 	public static final String DEF_STAT_STRING = "DEFENSE : ";
 	
-	//Constructeur avec nom. Si un character est créé avec un nom passé en paramètre, on appelle d'abord le constructeur sans paramètre avec this()
-	// puis on s'occuper de set le nom
+	/**
+	 * Constructeur avec paramètre name
+	 * @param name
+	 */
 	public Character (String name) {
 		this();
 		this.name = name;
 	}
 	
-	//Constructeur de base
+	/**
+	 * Constructeur
+	 */
 	public Character() {
 		dice = new Dice(101);
 		this.bag = new SmallBag();
@@ -44,7 +48,10 @@ public abstract class Character {
 	
 
 	
-	//Setters et Getters
+	/**
+	 * Getters et setters
+	 * @return
+	 */
 	
 	public int getStamina() {
 		return stamina;
@@ -111,27 +118,54 @@ public abstract class Character {
 	}
 	
 	
-	// Methods
+	/**
+	 * Methods
+	 */
 
+	/**
+	 * Affiche le toString
+	 */
 	public void printStats() {
 		System.out.println(this.toString());
 	}
 	
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		if(this.isAlive() == false) {
 			return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina) + String.format("%-30s", "BUFF : " + this.computeBuff()) + String.format("%-20s", "Dead");
 		}
 		return String.format("%-20s", "[" + this.getClass().getSimpleName() + "]") + String.format("%-30s", this.name) + String.format("%-20s", this.LIFE_STAT_STRING + this.life) + String.format("%-30s", this.DEF_STAT_STRING + this.computeProtection()) + String.format("%-20s", this.STAM_STAT_STRING + this.stamina)+ String.format("%-30s", "BUFF : " + this.computeBuff()) + String.format("%-20s", "Alive");
 }
-	
+	/**
+	 * Verifie si le personnage est toujours en vie
+	 * @return
+	 */
 	public Boolean isAlive(){
 		return this.life <= 0 ? false : true;
 	}
 	
+	/**
+	 * Fais en sorte que le personnage attaque ave l'arme équipée
+	 * @return
+	 * @throws WeaponNullException
+	 * @throws WeaponBrokenException
+	 * @throws StaminaEmptyException
+	 */
 	public int attack() throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		return attackWith(this.weapon);
 	}
 	
+	/**
+	 * Attaque avec l'arme en paramètre
+	 * @param weapon
+	 * @return
+	 * @throws WeaponNullException
+	 * @throws WeaponBrokenException
+	 * @throws StaminaEmptyException
+	 */
 	private int attackWith(Weapon weapon) throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		int damage = 0;
 		
@@ -168,6 +202,11 @@ public abstract class Character {
 		return damage;
 	}
 	
+	/**
+	 * Le nombre de dommage en paramètre est infligé au personnage
+	 * @param damage
+	 * @return
+	 */
 	public int getHitWith(int damage) {
 		//Calcul des dommages en fonction de l'armure
 		int divider = damage * Math.round(this.computeProtection()) / 100;
@@ -179,9 +218,25 @@ public abstract class Character {
 		return damageAfterProtecc;
 	}
 	
+	/**
+	 * Methode abstraite qui permet de calcler la valeur de l'amure
+	 * @return
+	 */
 	public abstract float computeProtection();
+	
+	/**
+	 * Methode Absraite permettant de calculer la valeur totale des buffs
+	 * @return
+	 */
 	public abstract float computeBuff();
 	
+	/**
+	 * Script de bataille entre deux personnages
+	 * @param foe
+	 * @throws WeaponNullException
+	 * @throws WeaponBrokenException
+	 * @throws StaminaEmptyException
+	 */
 	public void battle(Character foe) throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		int damage = this.attack();
 		int damageAfterProtecc = foe.getHitWith(damage);
@@ -192,7 +247,10 @@ public abstract class Character {
 		System.out.println("\n");
 	}
 	
-	
+	/**
+	 * Utilise un consommable selon sa nature
+	 * @param consumable
+	 */
 	public void use(Consumables consumable) {
 		
 		if (consumable instanceof Drink) {
@@ -206,6 +264,11 @@ public abstract class Character {
 		}
 	}
 	
+	/**
+	 * Boit une boisson 
+	 * @param drink
+	 * @return
+	 */
 	private int drink(Drink drink) {
 		
 		System.out.println(this.name + " drinks " + drink);
@@ -220,6 +283,11 @@ public abstract class Character {
 		return regenPower;
 	}
 	
+	/**
+	 * Mange un repas
+	 * @param food
+	 * @return
+	 */
 	private int eat(Food food) {
 		
 		System.out.println(this.name + " eats " + food);
@@ -234,21 +302,38 @@ public abstract class Character {
 		return regenPower;
 	}
 	
+	/**
+	 * Calcule le montant de régération
+	 * @param old
+	 * @param regenPower
+	 * @param max
+	 * @return
+	 */
 	private int computeRecovered(int old, int regenPower, int max) {
 		int temp = (old + regenPower) - max;
 		return regenPower - temp;
 	}
 	
+	/**
+	 * Utilise le consommable équipé
+	 */
 	public void consume() {
 		this.use(this.getConsumable());
 	}
 	
+	/**
+	 * Répare l'arme équipée avec le kit passé en paramètre
+	 * @param kit
+	 */
 	private void repairWeaponWith(RepairKit kit) {
 		System.out.println(this.name + " repairs " + this.getWeapon().toString() + " with " + kit.toString());
 		this.getWeapon().setDurability(this.getWeapon().getDurability() + kit.use());
 	}
 	
-	
+	/**
+	 * Ramasse un objet et le place dans le sac
+	 * @param item
+	 */
 	public void pickUp(Collectible item) {
 		if (item.getWeight() <= this.bag.getCapacity() - this.bag.getWeight()) {
 			this.bag.push(item);
@@ -256,6 +341,11 @@ public abstract class Character {
 		}
 	}
 	
+	/**
+	 * Sort un objet du sac
+	 * @param item
+	 * @return
+	 */
 	public Collectible pullOut(Collectible item) {
 		Collectible pull = this.bag.pop(item);
 		if (pull != null) {
@@ -265,22 +355,42 @@ public abstract class Character {
 		return null;
 	}
 	
+	/**
+	 * Affiche le contenu du sac
+	 */
 	public void printBag() {
 		System.out.println("BAG : " + this.bag.toString());
 	}
 	
+	/**
+	 * Retourne la capacité du sac
+	 * @return
+	 */
 	public int getBagCapacity() {
 		return this.bag.getCapacity();
 	}
 	
+	/**
+	 * Affiche la capacité restante
+	 * @return
+	 */
 	public int getBagWeighth() {
 		return this.bag.getCapacity() - this.bag.getWeight();
 	}
 	
+	/**
+	 * retourne un tableau des objets du sac
+	 * @return
+	 */
 	public Collectible[] getBagItems() {
 		return this.bag.getItems();
 	}
 	
+	/**
+	 * Equipe un sac au héros
+	 * @param bag
+	 * @return
+	 */
 	public Bag setBag(Bag bag) {
 		Bag.transfer(this.bag, bag);
 		Bag oldBag = this.bag;
@@ -289,6 +399,10 @@ public abstract class Character {
 		return oldBag;
 	}
 	
+	/**
+	 * Sort une arme du sac et l'équipe au héros
+	 * @param weapon
+	 */
 	public void equip(Weapon weapon) {
 		if (this.bag.pop(weapon) != null) {
 			this.setWeapon(weapon);
@@ -296,6 +410,10 @@ public abstract class Character {
 		}
 	}
 	
+	/**
+	 * Sort un consommable du sac et l'utilise
+	 * @param consumable
+	 */
 	public void equip(Consumables consumable) {
 		if (this.bag.pop(consumable) != null) {
 			this.setConsumable(consumable);
@@ -303,6 +421,11 @@ public abstract class Character {
 		}
 	}
 	
+	/**
+	 * Methode générique n'acceptant qu'un consommable, et l'utilise selon les besoins
+	 * @param type
+	 * @return
+	 */
 	private Consumables fastUseFirst(Class<? extends Consumables> type) {
 		
 		Consumables used = null;
@@ -332,22 +455,40 @@ public abstract class Character {
         return used;
 	}
 	
+	/**
+	 * Utilise le premier repair kit trouvé
+	 * @return
+	 */
     public RepairKit fastRepair() {
         return (RepairKit)this.fastUseFirst(RepairKit.class);
     }
     
+    /**
+     * utilise la première nourriture trouvée
+     * @return
+     */
     public Food fastEat() {
         return (Food)this.fastUseFirst(Food.class);
     }
     
+    /**
+     * Utilise la première boisson trouvée
+     * @return
+     */
     public Drink fastDrink() {
         return (Drink)this.fastUseFirst(Drink.class);
     }
     
+    /**
+     * Affiche le consommable équipé
+     */
     public void printConsumable() {
     	System.out.println("CONSUMABLE : " + this.getConsumable());
     }
     
+    /**
+     * Affiche l'arme équipée
+     */
     public void printWeapon() {
     	System.out.println("WEAPON : " + this.getWeapon());
     }

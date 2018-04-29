@@ -8,9 +8,18 @@ public class Dice {
 	//protected java.util.Random random;
 	protected Random random = new Random();
 	
+	/**
+	 * Constructeur
+	 * @param nbFaces
+	 */
 	public Dice(int nbFaces) {
 		this.faces = nbFaces;
 	}
+	
+	/**
+	 * Getters et setters
+	 * @return
+	 */
 	
 	public Random getRandom() {
 		return random;
@@ -28,10 +37,17 @@ public class Dice {
 		this.faces = faces;
 	}
 
+	/**
+	 * Lance le dé
+	 * @return
+	 */
 	public int roll() {
 		return random.nextInt(this.faces);
 	}
 	
+	/**
+	 * Test du dé
+	 */
 	public void test() {
 		int i;
 		int min = 0;

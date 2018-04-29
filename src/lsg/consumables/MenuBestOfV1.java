@@ -18,6 +18,10 @@ public class MenuBestOfV1 {
 	
 	//Methodes
 	
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		
 		String output = "";

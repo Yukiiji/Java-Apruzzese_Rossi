@@ -20,14 +20,16 @@ public class LearningSoulsGame {
 	
 	public static final String BULLET_POINT = "  \u2022 ";
 	
-	//On instancie notre héros et notre monstre
 	Hero hero = new Hero("Le chevalier Couscous", 250, 100);
 	Monster monster = new Monster("Gilles de Rais", 300, 70);
-	//On instancie un nouveau scanner pour enregistrer les entrées utilisateur
 	Scanner scan = new Scanner(System.in);
 	private Hero ea;
 
-//Main : ce qui se lance lors de la compilation
+	/**
+	 * Main lance le programme
+	 * @param args
+	 * @throws WeaponNullException
+	 */
 	public static void main(String[] args) throws WeaponNullException {
 		
 		LearningSoulsGame lsg = new LearningSoulsGame();
@@ -37,7 +39,9 @@ public class LearningSoulsGame {
 		
 	}
 	
-		//Fonction qui affiche les stats du héros et du monstre
+	/**
+	 * refresh affiche les stats
+	 */
 	public void refresh() {
 		this.hero.printStats();
 		System.out.println(this.hero.armorToString());
@@ -51,8 +55,10 @@ public class LearningSoulsGame {
 		this.monster.printWeapon();
 	}
 	
-	//tant que les héros et monstre sont en vie, on affiche leurs stats avec refresh -> le heros attaque -> on attends la saisie utilisateur
-	// -> On check si  lemonstre est toujours en vie après l'attaque -> On fait pareil mais avec le monstre qui attaque
+	/**
+	 * script de combat entre le heros et le monstre
+	 * @return
+	 */
 	public int fight1v1() {
 		while (this.hero.isAlive() && this.monster.isAlive()) {
 			
@@ -118,19 +124,26 @@ public class LearningSoulsGame {
 		return 0;
 	}
 	
-	// Cette méthode va set les armes de nos personnages
+	/**
+	 * equipe nos personnages
+	 */
 	public void init() {
 		this.hero.setWeapon(new Sword("La couscoussière", 60, 100, 15, 100));
 		this.hero.setConsumable(new Hamburger());
 		this.monster.setWeapon(new Claw("La jugulaire", 25, 125, 9, 175));
 	}
 	
-	//Cette méthode est appelée dans le main. D'abord on appelle init() pour set les armes, ensuite on appelle fight1v1() pour les faire se totocher
+	/**
+	 * regroupe init et fight
+	 */
 	public void play_v1(){
 		init();
 		fight1v1();
 	}
 	
+	/**
+	 * playv1 en equipant de l'armure au héros
+	 */
 	public void play_v2(){
 		this.hero.setArmorItem(new RingedKnightArmor(), 1);
 		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
@@ -138,6 +151,9 @@ public class LearningSoulsGame {
 		fight1v1();
 	}
 	
+	/**
+	 * equipe des anneaux et lance le combat
+	 */
 	public void play_v3() {
 		this.hero.setArmorItem(new RingedKnightArmor(), 1);
 		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
@@ -148,6 +164,12 @@ public class LearningSoulsGame {
 
 	}
 	
+	/**
+	 * créé un héros avec 1 pv et sans stam
+	 * @throws WeaponNullException
+	 * @throws WeaponBrokenException
+	 * @throws StaminaEmptyException
+	 */
 	public void createExhaustedHero() throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
         this.ea.getHitWith(99);
         this.ea.setWeapon(new Weapon("Enuùma-KUN", 0, 0, 1000, 100));
@@ -155,6 +177,10 @@ public class LearningSoulsGame {
         this.ea.printStats();
     }
 	
+	/**
+	 * test exception no weapon
+	 * @throws WeaponNullException
+	 */
 	public void testExceptions() throws WeaponNullException {
 		this.hero.setWeapon(null);
 		this.fight1v1();

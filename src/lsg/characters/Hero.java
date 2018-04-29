@@ -12,33 +12,36 @@ import lsg.weapons.Weapon;
 
 public class Hero extends Character{
 	
-	//tableau d'armures du héros
 	private ArmorItem[] armor;
 	
 	private Ring[] ring;
-	//Constante disant que le héros ne peut porter que 3 pièces d'armures
 	private final int MAX_ARMOR_PIECES = 3;
 	private final int MAX_RING_PIECES = 2;
 	
-
+	/**
+	 * Constructeur spécifiant le nom, la vie et la stamina du héros
+	 * @param name
+	 * @param maxLife
+	 * @param maxStamina
+	 */
 	public Hero(String name, int maxLife, int maxStamina) {
 		super(name);
 		this.maxLife = maxLife;
 		this.life = maxLife;
 		this.maxStamina = maxStamina;
 		this.stamina = maxStamina;
-		
-		//On instancie le tableau avec une taille de 3
+
 		this.armor = new ArmorItem[this.MAX_ARMOR_PIECES];
-		
 		this.ring = new Ring[this.MAX_RING_PIECES];
 		
-		//Pour chaque index du tableau on insert un objet armure, pour éviter des erreurs de null lors de l'addition d'armure
 		for (int i = 0; i < armor.length; i++) {
 			this.armor[i] = new ArmorItem();
 		}
 	}
 	
+	/**
+	 * Constructeur créant un héros par défaut
+	 */
 	public Hero() {
 		super();
 		this.name = "Ynovator";
@@ -53,7 +56,10 @@ public class Hero extends Character{
 		}
 	}
 	
-	
+	/**
+	 * Main lance le programme
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		Hero lancer = new Hero("Haka no RANSSA", 100, 100);
@@ -66,8 +72,12 @@ public class Hero extends Character{
 	
 	//Méthodes
 	
-	//Methode pour attribuer une piece d'armure au héros, si le slot à attribuer est inférieur à 0 ou inférieur à 3 on ne fait rien
-	// on effectue slot - 1 car un tableau commence à 0
+	/**
+	 * Zquipe un piece d'armure à l'emplavcement spécifié
+	 * @param armorPiece
+	 * @param slot
+	 * @return
+	 */
 	public float setArmorItem(ArmorItem armorPiece, int slot) {
 		if (slot < 0 || slot > this.MAX_ARMOR_PIECES) {
 			return 0;
@@ -76,11 +86,18 @@ public class Hero extends Character{
 		return armor[slot - 1].getArmorValue();
 	}
 	
-	//Retourne la valeur totale d'armure
+	/**
+	 * Retourne la valeur totale d'armure
+	 * @return
+	 */
 	public float getTotalArmor() {
 		return this.armor[0].getArmorValue() + this.armor[1].getArmorValue() + this.armor[2].getArmorValue();
 	}
 	
+	/**
+	 * Affiche un récapitulatif de l'armure actuelle
+	 * @return
+	 */
 	public String armorToString() {
 		String slot1;
 		String slot2;
@@ -93,6 +110,10 @@ public class Hero extends Character{
 		return String.format("%-20s", "ARMOR") + String.format("%-40s", "1 : " + slot1) + String.format("%-40s", "2 : " + slot2) + String.format("%-40s", "3 : " + slot3) + String.format("%-40s", "TOTAL ARMOR : " + this.getTotalArmor());
 	}
 	
+	/**
+	 * Retourne les pieces d'armures équippées
+	 * @return
+	 */
 	public ArmorItem[] getArmorItem() {
 		ArmorItem[] allArmors = new ArmorItem[0];
 		for (int i = 0; i < this.armor.length; i++) {
@@ -103,11 +124,20 @@ public class Hero extends Character{
 		return allArmors;
 	}
 
+	/**
+	 * Methode héritée qui calcule la'armure du héros
+	 */
 	@Override
 	public float computeProtection() {
 		return this.getTotalArmor();
 	}
 
+	/**
+	 * Equipe un anneau au héros
+	 * @param r
+	 * @param slot
+	 * @return
+	 */
 	public float setRing(Ring r, int slot) {
 		if (slot < 0 || slot > this.MAX_RING_PIECES) {
 			return 0;
@@ -117,13 +147,21 @@ public class Hero extends Character{
 		return 1;
 	}
 	
+	/**
+	 * Retourne l'anneau du slot passé en paramètre
+	 * @param slot
+	 * @return
+	 */
 	public Ring getRing(int slot) {
 		if (slot < 0 || slot > this.MAX_RING_PIECES) {
 			return null;
 		}
 		return this.ring[slot-1];
 	}
-
+	
+	/**
+	 * Methode héritée calculant le total des buffs
+	 */
 	@Override
 	public float computeBuff() {
 
@@ -136,7 +174,11 @@ public class Hero extends Character{
 		return totalBuff;
 	}
 	
-	
+	/**
+	 * Sort du sac une piece d'armure et l'équipe
+	 * @param armor
+	 * @param slot
+	 */
 	public void equip(ArmorItem armor, int slot) {
 		
 		Collectible[] items = this.getBagItems();
@@ -150,6 +192,11 @@ public class Hero extends Character{
 		}
 	}
 	
+	/**
+	 * Sort du sac un anneau et l'équipe
+	 * @param r
+	 * @param slot
+	 */
 	public void equip(Ring r, int slot) {
 		
 		Collectible[] items = this.getBagItems();
@@ -163,6 +210,10 @@ public class Hero extends Character{
 		}
 	}
 	
+	/**
+	 * Retourne une chaine formatée concernant les anneaux
+	 * @return
+	 */
 	public String ringToString() {
 		String slot1;
 		String slot2;
@@ -174,6 +225,9 @@ public class Hero extends Character{
 		return String.format("%-20s", "RINGS") + String.format("%-40s", "1 : " + slot1) + String.format("%-40s", "2 : " + slot2);
 	}
 	
+	/**
+	 * Affiche la chaine formatée de ringToString
+	 */
 	public void printRings() {
 		System.out.println(this.ringToString());
 	}

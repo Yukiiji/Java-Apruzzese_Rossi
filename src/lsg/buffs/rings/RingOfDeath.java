@@ -6,6 +6,9 @@ public class RingOfDeath extends Ring{
 	
 	private static float LIMIT = 0.5f ; 
 
+	/**
+	 * Constructeur
+	 */
 	public RingOfDeath() {
 		super("Ring of Death", 10000) ;
 	}

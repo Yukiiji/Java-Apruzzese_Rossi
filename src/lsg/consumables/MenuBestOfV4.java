@@ -11,6 +11,10 @@ public class MenuBestOfV4 extends MenuBestOfV2 {
 	
 	//Methodes
 	
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		
 		String output = "";

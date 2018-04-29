@@ -5,10 +5,16 @@ import lsg.weapons.Sword;
 
 public class RingOfSwords extends Ring{
 	
+	/**
+	 * Constructeur
+	 */
 	public RingOfSwords() {
 		super("Ring of Swords", 10) ;
 	}
 	
+	/**
+	 * Si l'arme du héros est une épée alors le héros est buffé
+	 */
 	@Override
 	public float computeBuffValue() {
 		if (hero != null && (hero.getWeapon() instanceof Sword) )  return power ;

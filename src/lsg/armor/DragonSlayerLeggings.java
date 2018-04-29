@@ -4,6 +4,9 @@ import lsg.bags.Collectible;
 
 public class DragonSlayerLeggings extends ArmorItem implements Collectible{
 
+	/**
+	 * Constructeur
+	 */
 	public DragonSlayerLeggings () {
 		super();
 		this.name = "Dragon Slayer Leggings";
@@ -13,6 +16,9 @@ public class DragonSlayerLeggings extends ArmorItem implements Collectible{
 	
 	
 	@Override
+	/**
+	 * Methode abstraite
+	 */
 	public int getWeight() {
 		return this.weight;
 	}

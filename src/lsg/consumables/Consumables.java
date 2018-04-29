@@ -8,6 +8,13 @@ public class Consumables implements Collectible{
 	private int capacity;
 	protected int weight = 1;
 	
+	/**
+	 * Constructeur
+	 * @param name
+	 * @param capacity
+	 * @param stat
+	 */
+	
 	public Consumables(String name, int capacity, String stat) {
 		this.name = name;
 		this.capacity = capacity;
@@ -15,7 +22,10 @@ public class Consumables implements Collectible{
 	}
 	
 	
-	//Getters
+	/**
+	 * Getters
+	 * @return
+	 */
 
 	public String getName() {
 		return name;
@@ -30,7 +40,10 @@ public class Consumables implements Collectible{
 	}
 	
 	
-	//Setter
+	/**
+	 * Setter
+	 * @param capacity
+	 */
 	
 	protected void setCapacity(int capacity) {
 		this.capacity = capacity;
@@ -39,10 +52,18 @@ public class Consumables implements Collectible{
 	
 	// Methodes
 
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		return this.name + " [" + this.stat + " " + this.capacity + " point(s)]";
 	}
 	
+	/**
+	 * Vide un consommable
+	 * @return
+	 */
 	public int use() {
 		int capacity = this.getCapacity();
 		this.setCapacity(0);
@@ -50,6 +71,9 @@ public class Consumables implements Collectible{
 	}
 
 
+	/**
+	 * Methode héritée qui retournee poids du consommable
+	 */
 	@Override
 	public int getWeight() {
 		return this.weight;

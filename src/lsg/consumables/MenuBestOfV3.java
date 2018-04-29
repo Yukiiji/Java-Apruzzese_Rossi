@@ -8,6 +8,10 @@ public class MenuBestOfV3 extends MenuBestOfV2 {
 	
 	//Methodes
 	
+	/**
+	 * Surchage de toString
+	 */
+	@Override
 	public String toString() {
 		
 		String output = "";

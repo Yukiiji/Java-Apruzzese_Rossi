@@ -9,7 +9,11 @@ public class ArmorItem implements Collectible{
 	protected int weight = 4;
 	
 	
-	//Constructeur d'armure
+	/**
+	 * Constructeur
+	 * @param name
+	 * @param armorValue
+	 */
 	public ArmorItem(String name, float armorValue) {
 		this.name = name;
 		this.armorValue = armorValue;
@@ -20,22 +24,34 @@ public class ArmorItem implements Collectible{
 	}
 	
 
-	//Getters
+	/**
+	 * Getter
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	
+	/**
+	 * Getter
+	 * @return armorValue
+	 */
 	public float getArmorValue() {
 		return armorValue;
 	}
 	
 	
-	//Methodes
-	
+	/**
+	 * Surchage de la methode toString
+	 */
+	@Override
 	public String toString() {
 		return this.name+" (" + this.armorValue + ")";
 	}
 
+	/**
+	 * methode abstraite
+	 */
 	@Override
 	public int getWeight() {
 		return this.weight;

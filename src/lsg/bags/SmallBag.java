@@ -6,10 +6,17 @@ import lsg.weapons.Sword;
 
 public class SmallBag extends Bag{
 
+	/**
+	 * Constructeur
+	 */
 	public SmallBag() {
 		super(10);
 	}
 
+	/**
+	 * Main lance le programme
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		SmallBag sb = new SmallBag();
