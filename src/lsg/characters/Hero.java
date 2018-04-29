@@ -127,7 +127,9 @@ public class Hero extends Character{
 
 		float totalBuff = 0;
 		for (Ring r : this.ring) {
-			totalBuff += r.computeBuffValue();
+			if (r != null) {
+				totalBuff += r.computeBuffValue();
+			}
 		}
 		return totalBuff;
 	}

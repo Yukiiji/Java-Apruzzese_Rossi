@@ -7,6 +7,8 @@ import lsg.characters.*;
 import lsg.consumables.*;
 import lsg.consumables.food.*;
 import lsg.armor.*;
+import lsg.buffs.rings.RingOfDeath;
+import lsg.buffs.rings.RingOfSwords;
 import lsg.weapons.*;
 
 public class LearningSoulsGame {
@@ -105,6 +107,8 @@ public class LearningSoulsGame {
 	
 	public void play_v3() {
 		this.hero.setArmorItem(new RingedKnightArmor(), 1);
+		this.hero.setRing(new RingOfSwords(), 1);
+		this.hero.setRing(new RingOfDeath(), 2);
 		this.hero.setArmorItem(new DragonSlayerLeggings(), 2);
 		this.monster = new Lycanthrope();
 		init();

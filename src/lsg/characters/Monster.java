@@ -45,8 +45,11 @@ public class Monster extends Character {
 
 	@Override
 	public float computeBuff() {
-
-		return this.talisman.computeBuffValue();
+		
+		if (this.talisman != null) {
+			return this.talisman.computeBuffValue();
+		}
+		return 0;
 	}
 
 }
