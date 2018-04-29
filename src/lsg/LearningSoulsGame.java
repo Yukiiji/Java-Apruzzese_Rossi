@@ -6,6 +6,8 @@ import lsg.characters.*;
 import lsg.consumables.*;
 import lsg.consumables.drinks.Wine;
 import lsg.consumables.food.*;
+import lsg.exceptions.StaminaEmptyException;
+import lsg.exceptions.WeaponBrokenException;
 import lsg.exceptions.WeaponNullException;
 import lsg.armor.*;
 import lsg.bags.Bag;
@@ -68,6 +70,11 @@ public class LearningSoulsGame {
 						// TODO Auto-generated catch block
 						this.hero.setWeapon(new Weapon("no weapon", 0, 0, 0, 2));
 						System.out.println("No weapon has been equipped");
+					} catch (WeaponBrokenException e) {
+						System.out.println(this.hero.getWeapon() + " is broken");
+					} catch (StaminaEmptyException e) {
+						// TODO Auto-generated catch block
+						System.out.println("ATTACK HAS NO EFFECT : " + e.getStackTrace());
 					}
 					foo = false;
 					break;
@@ -93,6 +100,12 @@ public class LearningSoulsGame {
 			try {
 				this.monster.battle(this.hero);
 			} catch (WeaponNullException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (StaminaEmptyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (WeaponBrokenException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -135,7 +148,7 @@ public class LearningSoulsGame {
 
 	}
 	
-	public void createExhaustedHero() throws WeaponNullException {
+	public void createExhaustedHero() throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
         this.ea.getHitWith(99);
         this.ea.setWeapon(new Weapon("Enuùma-KUN", 0, 0, 1000, 100));
         this.ea.attack();

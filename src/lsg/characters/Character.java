@@ -1,6 +1,8 @@
 package lsg.characters;
 import lsg.consumables.food.*;
 import lsg.consumables.repair.RepairKit;
+import lsg.exceptions.StaminaEmptyException;
+import lsg.exceptions.WeaponBrokenException;
 import lsg.exceptions.WeaponNullException;
 import lsg.bags.*;
 import lsg.consumables.*;
@@ -126,11 +128,11 @@ public abstract class Character {
 		return this.life <= 0 ? false : true;
 	}
 	
-	public int attack() throws WeaponNullException {
+	public int attack() throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		return attackWith(this.weapon);
 	}
 	
-	private int attackWith(Weapon weapon) throws WeaponNullException {
+	private int attackWith(Weapon weapon) throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		int damage = 0;
 		
 		if (weapon == null) {
@@ -138,7 +140,10 @@ public abstract class Character {
 		}
 		double multiplier = 0.0;
 		if (weapon.isBroken()) {
-			return 0;
+			throw new WeaponBrokenException(weapon);
+		}
+		if (this.getStamina() <= 0) {
+			throw new StaminaEmptyException();
 		}
 		
 		//int staminaAfterHit = (this.stamina * 100) / weapon.getStamCost();
@@ -148,6 +153,7 @@ public abstract class Character {
 			multiplier = damage *((double)this.stamina / (double)weapon.getStamCost());
 			damage = (int)multiplier;
 		}
+
 		
 		float buffToDamage = (float) ((this.computeBuff() / 100) * damage);
 		damage += (int) buffToDamage;
@@ -176,7 +182,7 @@ public abstract class Character {
 	public abstract float computeProtection();
 	public abstract float computeBuff();
 	
-	public void battle(Character foe) throws WeaponNullException {
+	public void battle(Character foe) throws WeaponNullException, WeaponBrokenException, StaminaEmptyException {
 		int damage = this.attack();
 		int damageAfterProtecc = foe.getHitWith(damage);
 		System.out.println();
