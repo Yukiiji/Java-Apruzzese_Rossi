@@ -113,6 +113,7 @@ public class Hero extends Character{
 			return 0;
 		} 
 		this.ring[slot - 1] = r;
+		r.setHero(this);
 		return 1;
 	}
 	
